@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .container > *:not(:first-child) {
+        margin-top: 16px;
+      }
+
+      #result {
+        width: 300px;
+        min-height: 100px;
+      }
+    </style>
+    <script>
+      function startRequest() {
+        fetch(
+          "https://jsonplaceholder.cypress.io/comments?param2=value1&param2=value2"
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            document.getElementById("result").innerText = JSON.stringify(res);
+          })
+          .catch((error) => {
+            document.getElementById("error").innerText = error.toString();
+          });
+      }
+
+      function startRequest2() {
+        fetch(
+          "https://jsonplaceholder.cypress.io/comments?param2=value1&param2=value2",
+          {
+            body: null,
+            method: "PUT",
+            mode: "cors",
+            credentials: "include",
+          }
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            document.getElementById("result").innerText = JSON.stringify(res);
+          })
+          .catch((error) => {
+            document.getElementById("error").innerText =
+              "Error: " + error.toString();
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Cypress
+      </h1>
+
+      <button onclick="startRequest()">Start request</button>
+
+      <button onclick="startRequest2()">Start request 2</button>
+
+      <textarea id="result"></textarea>
+
+      <div id="error"></div>
+    </div>
+  </body>
+</html>
